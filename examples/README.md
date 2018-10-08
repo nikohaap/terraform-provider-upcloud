@@ -53,7 +53,7 @@ Resource actions are indicated with the following symbols:
 
 Terraform will perform the following actions:
 
-  + upcloud_server.test
+  + upcloud_instance.test
       id:                                <computed>
       cpu:                               <computed>
       hostname:                          "ubuntu.example.tld"
@@ -101,7 +101,7 @@ Apply the plan by running `terraform apply`.
 
 ```
 $ terraform apply
-upcloud_server.test: Creating...
+upcloud_instance.test: Creating...
   cpu:                               "" => "<computed>"
   hostname:                          "" => "ubuntu.example.tld"
   ipv4:                              "" => "true"
@@ -138,11 +138,11 @@ upcloud_server.test: Creating...
   storage_devices.2.title:           "" => "<computed>"
   title:                             "" => "<computed>"
   zone:                              "" => "fi-hel1"
-upcloud_server.test: Still creating... (10s elapsed)
-upcloud_server.test: Still creating... (20s elapsed)
-upcloud_server.test: Still creating... (30s elapsed)
-upcloud_server.test: Still creating... (40s elapsed)
-upcloud_server.test: Creation complete after 46s (ID: <snip>)
+upcloud_instance.test: Still creating... (10s elapsed)
+upcloud_instance.test: Still creating... (20s elapsed)
+upcloud_instance.test: Still creating... (30s elapsed)
+upcloud_instance.test: Still creating... (40s elapsed)
+upcloud_instance.test: Creation complete after 46s (ID: <snip>)
 
 Outputs:
 
@@ -153,7 +153,7 @@ You can then log in to the server by running `ssh tf@<SOME IP ADDRESS>`. Check y
 command:
 
 ```
-$ terraform state show upcloud_server.test
+$ terraform state show upcloud_instance.test
 ```
 
 ## Modifying the plan
@@ -170,7 +170,7 @@ Resource actions are indicated with the following symbols:
 
 Terraform will perform the following actions:
 
-  ~ upcloud_server.test
+  ~ upcloud_instance.test
       cpu: "1" => "2"
       mem: "512" => "1024"
 ```
@@ -179,15 +179,15 @@ Then `terraform apply`.
 
 ```
 $ terraform apply
-upcloud_server.test: Refreshing state... (ID: <snip>)
-upcloud_server.test: Modifying... (ID: <snip>)
+upcloud_instance.test: Refreshing state... (ID: <snip>)
+upcloud_instance.test: Modifying... (ID: <snip>)
   cpu: "1" => "2"
   mem: "512" => "1024"
-upcloud_server.test: Still modifying... (ID: <snip>, 10s elapsed)
-upcloud_server.test: Still modifying... (ID: <snip>, 20s elapsed)
-upcloud_server.test: Still modifying... (ID: <snip>, 30s elapsed)
-upcloud_server.test: Still modifying... (ID: <snip>, 40s elapsed)
-upcloud_server.test: Modifications complete after 40s (ID: <snip>)
+upcloud_instance.test: Still modifying... (ID: <snip>, 10s elapsed)
+upcloud_instance.test: Still modifying... (ID: <snip>, 20s elapsed)
+upcloud_instance.test: Still modifying... (ID: <snip>, 30s elapsed)
+upcloud_instance.test: Still modifying... (ID: <snip>, 40s elapsed)
+upcloud_instance.test: Modifications complete after 40s (ID: <snip>)
 
 Outputs:
 
@@ -205,7 +205,7 @@ You can then destroy the instance by running `terraform destroy`. NOTE: You will
 $ terraform destroy
 Terraform will perform the following actions:
 
-  - upcloud_server.test
+  - upcloud_instance.test
 
 Plan: 0 to add, 0 to change, 1 to destroy.
 
@@ -215,9 +215,9 @@ Do you really want to destroy?
 
   Enter a value: yes
 
-upcloud_server.test: Destroying... (ID: <snip>)
-upcloud_server.test: Still destroying... (ID: <snip>, 10s elapsed)
-upcloud_server.test: Destruction complete after 10s
+upcloud_instance.test: Destroying... (ID: <snip>)
+upcloud_instance.test: Still destroying... (ID: <snip>, 10s elapsed)
+upcloud_instance.test: Destruction complete after 10s
 
 Destroy complete! Resources: 1 destroyed.
 ```
