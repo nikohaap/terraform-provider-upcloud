@@ -5,7 +5,7 @@ provider "upcloud" {
   # export UPCLOUD_PASSWORD="Password for Upcloud API user"
 }
 
-resource "upcloud_server" "test" {
+resource "upcloud_instance" "test" {
   zone     = "fi-hel1"
   hostname = "ubuntu.example.tld"
 
@@ -41,7 +41,7 @@ resource "upcloud_server" "test" {
   ]
 }
 
-resource "upcloud_server" "test2" {
+resource "upcloud_instance" "test2" {
   zone     = "fi-hel1"
   hostname = "ubuntu.example.tld"
 
@@ -81,15 +81,15 @@ resource "upcloud_tag" "My-tag" {
   name        = "TagName1"
   description = "TagDescription"
   servers     = [
-     "${upcloud_server.test.id}",
-     "${upcloud_server.test2.id}"
+     "${upcloud_instance.test.id}",
+     "${upcloud_instance.test2.id}"
   ]
 }
 
 output "test ipv4_address" {
-  value = "${upcloud_server.test.ipv4_address}"
+  value = "${upcloud_instance.test.ipv4_address}"
 }
 
 output "test2 ipv4_address" {
-  value = "${upcloud_server.test2.ipv4_address}"
+  value = "${upcloud_instance.test2.ipv4_address}"
 }
