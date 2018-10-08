@@ -7,29 +7,29 @@ import (
 	"github.com/hashicorp/terraform/helper/resource"
 )
 
-func TestUpcloudServer_basic(t *testing.T) {
+func TestUpcloudInstance_basic(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			{
-				Config: testUpcloudServerInstanceConfig(),
+				Config: testUpcloudInstanceInstanceConfig(),
 				Check: resource.ComposeAggregateTestCheckFunc(
-					resource.TestCheckResourceAttrSet("upcloud_server.my-server", "zone"),
-					resource.TestCheckResourceAttrSet("upcloud_server.my-server", "hostname"),
+					resource.TestCheckResourceAttrSet("upcloud_instance.my-instance", "zone"),
+					resource.TestCheckResourceAttrSet("upcloud_instance.my-instance", "hostname"),
 					resource.TestCheckResourceAttr(
-						"upcloud_server.my-server", "zone", "fi-hel1"),
+						"upcloud_instance.my-instance", "zone", "fi-hel1"),
 					resource.TestCheckResourceAttr(
-						"upcloud_server.my-server", "hostname", "debian.example.com"),
+						"upcloud_instance.my-instance", "hostname", "debian.example.com"),
 				),
 			},
 		},
 	})
 }
 
-func testUpcloudServerInstanceConfig() string {
+func testUpcloudInstanceInstanceConfig() string {
 	return fmt.Sprintf(`
-		resource "upcloud_server" "my-server" {
+		resource "upcloud_instance" "my-instance" {
 			zone     = "fi-hel1"
 			hostname = "debian.example.com"
 		
@@ -54,31 +54,31 @@ func testUpcloudServerInstanceConfig() string {
 `)
 }
 
-func TestAccServer_changePlan(t *testing.T) {
+func TestAccInstance_changePlan(t *testing.T) {
 	resource.Test(t, resource.TestCase{
 		PreCheck:  func() { testAccPreCheck(t) },
 		Providers: testAccProviders,
 		Steps: []resource.TestStep{
 			{
-				Config: testAccServerConfigWithSmallServerPlan,
+				Config: testAccInstanceConfigWithSmallInstancePlan,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"upcloud_server.my-server", "plan", "1xCPU-2GB"),
+						"upcloud_instance.my-instance", "plan", "1xCPU-2GB"),
 				),
 			},
 			{
-				Config: testAccPlanConfigUpdateServerPlan,
+				Config: testAccPlanConfigUpdateInstancePlan,
 				Check: resource.ComposeAggregateTestCheckFunc(
 					resource.TestCheckResourceAttr(
-						"upcloud_server.my-server", "plan", "2xCPU-4GB"),
+						"upcloud_instance.my-instance", "plan", "2xCPU-4GB"),
 				),
 			},
 		},
 	})
 }
 
-const testAccServerConfigWithSmallServerPlan = `
-resource "upcloud_server" "my-server" {
+const testAccInstanceConfigWithSmallInstancePlan = `
+resource "upcloud_instance" "my-instance" {
 			zone     = "fi-hel1"
 			hostname = "debian.example.com"
 			plan     = "1xCPU-2GB"
@@ -103,8 +103,8 @@ resource "upcloud_server" "my-server" {
 		}
 `
 
-const testAccPlanConfigUpdateServerPlan = `
-resource "upcloud_server" "my-server" {
+const testAccPlanConfigUpdateInstancePlan = `
+resource "upcloud_instance" "my-instance" {
 			zone     = "fi-hel1"
 			hostname = "debian.example.com"
 			plan     = "2xCPU-4GB"
@@ -129,7 +129,7 @@ resource "upcloud_server" "my-server" {
 		}
 `
 
-func Test_serverRestartIsRequired(t *testing.T) {
+func Test_instanceRestartIsRequired(t *testing.T) {
 	type args struct {
 		storageDevices []interface{}
 	}
@@ -138,7 +138,7 @@ func Test_serverRestartIsRequired(t *testing.T) {
 		args args
 		want bool
 	}{
-		{"Server reboot is not required if there's not any valid backup rules", args{
+		{"Instance reboot is not required if there's not any valid backup rules", args{
 			storageDevices: []interface{}{
 				map[string]interface{}{
 					"id":          "1",
@@ -147,7 +147,7 @@ func Test_serverRestartIsRequired(t *testing.T) {
 				},
 			},
 		}, false},
-		{"Server reboot is required if there's at least one valid backup rule", args{
+		{"Instance reboot is required if there's at least one valid backup rule", args{
 			storageDevices: []interface{}{
 				map[string]interface{}{
 					"id":     "1",
@@ -177,8 +177,8 @@ func Test_serverRestartIsRequired(t *testing.T) {
 	}
 	for _, tt := range cases {
 		t.Run(tt.name, func(t *testing.T) {
-			if got := serverRestartIsRequired(tt.args.storageDevices); got != tt.want {
-				t.Errorf("serverRestartIsRequired() = %v, want %v", got, tt.want)
+			if got := instanceRestartIsRequired(tt.args.storageDevices); got != tt.want {
+				t.Errorf("instanceRestartIsRequired() = %v, want %v", got, tt.want)
 			}
 		})
 	}

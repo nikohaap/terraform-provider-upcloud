@@ -27,7 +27,7 @@ func resourceUpCloudTag() *schema.Resource {
 				Required: true,
 				ForceNew: true,
 			},
-			"servers": {
+			"instances": {
 				Type:     schema.TypeList,
 				Required: true,
 				Elem: &schema.Schema{
@@ -53,13 +53,13 @@ func resourceUpCloudTagCreate(d *schema.ResourceData, meta interface{}) error {
 	if description, ok := d.GetOk("description"); ok {
 		createTagRequest.Description = description.(string)
 	}
-	if servers, ok := d.GetOk("servers"); ok {
-		servers := servers.([]interface{})
-		serversList := make([]string, len(servers))
-		for i := range serversList {
-			serversList[i] = servers[i].(string)
+	if instances, ok := d.GetOk("instances"); ok {
+		instances := instances.([]interface{})
+		instancesList := make([]string, len(instances))
+		for i := range instancesList {
+			instancesList[i] = instances[i].(string)
 		}
-		createTagRequest.Servers = serversList
+		createTagRequest.Servers = instancesList
 	}
 
 	tag, err := client.CreateTag(createTagRequest)
@@ -84,15 +84,15 @@ func resourceUpCloudTagUpdate(d *schema.ResourceData, meta interface{}) error {
 		_, newDescription := d.GetChange("description")
 		r.Tag.Description = newDescription.(string)
 	}
-	if d.HasChange("servers") {
-		_, newServers := d.GetChange("servers")
+	if d.HasChange("instances") {
+		_, newServers := d.GetChange("instances")
 
-		servers := newServers.([]interface{})
-		serversList := make([]string, len(servers))
-		for i := range serversList {
-			serversList[i] = servers[i].(string)
+		instances := newServers.([]interface{})
+		instancesList := make([]string, len(instances))
+		for i := range instancesList {
+			instancesList[i] = instances[i].(string)
 		}
-		r.Tag.Servers = serversList
+		r.Tag.Servers = instancesList
 	}
 
 	_, err := client.ModifyTag(r)

@@ -53,7 +53,7 @@ func TestUpcloudFirewallRule_basic(t *testing.T) {
 
 func testUpcloudFirewallRuleInstanceConfig() string {
 	return fmt.Sprintf(`
-		resource "upcloud_server" "my-server" {
+		resource "upcloud_instance" "my-instance" {
 			zone     = "fi-hel1"
 			hostname = "debian.example.com"
 			plan     = "1xCPU-2GB"
@@ -67,7 +67,7 @@ func testUpcloudFirewallRuleInstanceConfig() string {
 		}
 
 		resource "upcloud_firewall_rule" "my-firewall-rule" {
-			server_id                 = "${upcloud_server.my-server.id}"
+			server_id                 = "${upcloud_instance.my-instance.id}"
 			action                    = "accept"
 			comment                   = "Allow SSH from this network"
 			destination_address_end   = ""

@@ -555,7 +555,7 @@ func buildServerOpts(d *schema.ResourceData, meta interface{}) (*request.CreateS
 	return r, nil
 }
 
-func serverRestartIsRequired(storageDevices []interface{}) bool {
+func instanceRestartIsRequired(storageDevices []interface{}) bool {
 	for _, storageDevice := range storageDevices {
 		storageDevice := storageDevice.(map[string]interface{})
 		if backupRule := storageDevice["backup_rule"].(map[string]interface{}); backupRule != nil && len(backupRule) != 0 {
@@ -573,7 +573,7 @@ func buildAfterServerCreationOps(d *schema.ResourceData, meta interface{}) error
 	*/
 
 	storageDevices := d.Get("storage_devices").([]interface{})
-	if serverRestartIsRequired(storageDevices) {
+	if instanceRestartIsRequired(storageDevices) {
 		if err := verifyServerStopped(d, meta); err != nil {
 			return err
 		}
