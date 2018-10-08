@@ -21,13 +21,13 @@ resource "upcloud_instance" "test" {
     ]
 
     create_password   = true
-    password_delivery = "sms"
+    password_delivery = "email"
   }
 
   storage_devices = [
     {
       # You can use both storage template names and UUIDs
-      size    = 50
+      size    = 10
       action  = "clone"
       tier    = "maxiops"
       storage = "Ubuntu Server 16.04 LTS (Xenial Xerus)"
@@ -62,7 +62,7 @@ resource "upcloud_instance" "test2" {
   storage_devices = [
     {
       # You can use both storage template names and UUIDs
-      size    = 50
+      size    = 10
       action  = "clone"
       tier    = "maxiops"
       storage = "01000000-0000-4000-8000-000020040100"
@@ -80,7 +80,7 @@ resource "upcloud_instance" "test2" {
 resource "upcloud_tag" "My-tag" {
   name        = "TagName1"
   description = "TagDescription"
-  servers     = [
+  instances     = [
      "${upcloud_instance.test.id}",
      "${upcloud_instance.test2.id}"
   ]
